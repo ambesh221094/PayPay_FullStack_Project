@@ -1,0 +1,7 @@
+package com.employee.controller;
+
+@RestController
+@RequestMapping("/api")
+public class EmployeeController {
+
+}

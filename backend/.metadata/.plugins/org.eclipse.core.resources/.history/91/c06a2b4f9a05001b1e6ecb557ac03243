@@ -1,0 +1,9 @@
+package com.employee.form;
+
+public class LoginRequest {
+
+	private String employeeName;
+
+	private String password;
+
+}

@@ -1,0 +1,11 @@
+
+Á
+java:S4449."ˆAnnotate the parameter with @javax.annotation.Nullable in constructor declaration, or make sure that null can not be passed as argument.(¾ûô¾üÿÿÿÿ8¬¶–ÍÎ.HÍRMAJORZ
+CODE_SMELL
+~
+java:S4684"@Replace this persistent entity with a simple POJO or DTO object.(Ô˜É¯şÿÿÿÿ8à›êÅÎ.HËRCRITICALZVULNERABILITY
+Á
+java:S4449""ˆAnnotate the parameter with @javax.annotation.Nullable in constructor declaration, or make sure that null can not be passed as argument.(¾ûô¾üÿÿÿÿ8 õÅÎ.HÌRMAJORZ
+CODE_SMELL
+^
+java:S1148!"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8šõ—ùÎ.HÎRMINORZVULNERABILITY

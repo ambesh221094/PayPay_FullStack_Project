@@ -1,0 +1,12 @@
+package com.employee.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.employee.entity.Employee;
+
+public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+
+	@Query("SELECT e FROM Employee e WHERE e.employeeName = :username AND e.employeePassword= :password")
+	Collection<User> findAllActiveUsers(@Param("username") String username,@Param("password") String password);
+	
+}
