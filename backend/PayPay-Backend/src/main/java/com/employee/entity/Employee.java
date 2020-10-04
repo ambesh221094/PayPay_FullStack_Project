@@ -42,6 +42,10 @@ public class Employee {
 		this.id = id;
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
 	public String getEmployeeName() {
 		return employeeName;
 	}

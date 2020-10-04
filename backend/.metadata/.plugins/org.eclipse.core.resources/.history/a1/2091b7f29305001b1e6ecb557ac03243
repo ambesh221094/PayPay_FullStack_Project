@@ -1,9 +1,0 @@
-package com.employee.form;
-
-public class Login {
-
-	private String employeeName;
-
-	private String employeeEmail;
-
-}

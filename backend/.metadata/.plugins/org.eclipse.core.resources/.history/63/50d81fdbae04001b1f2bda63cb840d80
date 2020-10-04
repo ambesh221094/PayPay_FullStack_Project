@@ -1,8 +1,0 @@
-spring.datasource.url= jdbc:mysql://localhost:3306/employeedb
-spring.datasource.username= emp_feedback'@'localhost
-spring.datasource.password= emp_feedback
-
-spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.MySQL5InnoDBDialect
-
-# Hibernate ddl auto (create, create-drop, validate, update)
-spring.jpa.hibernate.ddl-auto= update

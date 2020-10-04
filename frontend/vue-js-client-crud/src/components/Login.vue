@@ -15,6 +15,7 @@
       <div class="form-group">
         <label for="password">Password</label>
         <input
+        type="password"
           class="form-control"
           id="password"
           required
@@ -22,7 +23,7 @@
           name="password"
         />
       </div>
-      <p class="error" v-if="!loginSuccess">Username or Password is Incorrect</p>
+      <!-- <p class="error" v-if="!loginSuccess">{{ errorMessage }}</p> -->
       <button @click="login" class="btn btn-success">Login</button>
   </div>
 </template>
@@ -39,7 +40,6 @@ export default {
         employeeName: "",
         password: ""
       },
-      loginSuccess: true
     };
   },
   methods: {
@@ -56,13 +56,14 @@ export default {
           if(response.data.admin){
             this.$router.push({name:'admin'})
           }else{
-            console.log("employee")
+            this.$router.push({name:'employee',params: { name: this.employee.employeeName }})
           }
         })
         .catch(function (error) {
          if (error.response) {
       if(error.response.status=='404'){
-          this.loginSuccess=false;
+       // this.loginSuccess=false;
+        //  this.errorMessage='Username or Password is Incorrect';
       }
     }
         });
