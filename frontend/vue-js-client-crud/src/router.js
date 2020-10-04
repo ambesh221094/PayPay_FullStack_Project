@@ -21,6 +21,11 @@ export default new Router({
       path: "/add",
       name: "add",
       component: () => import("./components/AddEmployee")
+    },
+    {
+      path: "/admin",
+      name: "admin",
+      component: () => import("./components/AdminView")
     }
   ]
 });

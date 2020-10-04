@@ -1,6 +1,5 @@
 <template>
   <div class="submit-form">
-    <div v-if="!submitted">
       <div class="form-group">
         <label for="employeeName">Name</label>
         <input
@@ -23,14 +22,8 @@
           name="password"
         />
       </div>
-
-      <button @click="saveEmployee" class="btn btn-success">Submit</button>
-    </div>
-
-    <div v-else>
-      <h4>You submitted successfully!</h4>
-      <button class="btn btn-success" @click="newEmployee">Add</button>
-    </div>
+      <p class="error" v-if="!loginSuccess">Username or Password is Incorrect</p>
+      <button @click="login" class="btn btn-success">Login</button>
   </div>
 </template>
 
@@ -46,31 +39,34 @@ export default {
         employeeName: "",
         password: ""
       },
-      submitted: false
+      loginSuccess: true
     };
   },
   methods: {
-    saveEmployee() {
+    login() {
       var data = {
         employeeName: this.employee.employeeName,
         password: this.employee.password
       };
 
-      EmployeeService.create(data)
+      EmployeeService.login(data)
         .then(response => {
           this.employee.id = response.data.id;
           console.log(response.data);
-          this.submitted = true;
+          if(response.data.admin){
+            this.$router.push({name:'admin'})
+          }else{
+            console.log("employee")
+          }
         })
-        .catch(e => {
-          console.log(e);
+        .catch(function (error) {
+         if (error.response) {
+      if(error.response.status=='404'){
+          this.loginSuccess=false;
+      }
+    }
         });
     },
-    
-    newEmployee() {
-      this.submitted = false;
-      this.employee = {};
-    }
   }
 };
 </script>
@@ -80,4 +76,9 @@ export default {
   max-width: 300px;
   margin: auto;
 }
+
+.error {
+    color: red;
+}
+
 </style>

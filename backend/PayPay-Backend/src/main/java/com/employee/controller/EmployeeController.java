@@ -29,12 +29,16 @@ public class EmployeeController {
 	public ResponseEntity<Employee> login(@RequestBody LoginRequest req) {
 		try {
 			Employee e = empRepository.findEmpByUsernameAndPassword(req.getEmployeeName(), req.getPassword());
-			if (e.isAdmin()) {
-				System.out.println("Logged In as Admin");
+			if (e != null) {
+				if (e.isAdmin()) {
+					System.out.println("Logged In as Admin");
+				} else {
+					System.out.println("Logged In as Employee");
+				}
+				return new ResponseEntity<>(e, HttpStatus.CREATED);
 			} else {
-				System.out.println("Logged In as Employee");
+				return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
-			return new ResponseEntity<>(e, HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -46,6 +50,7 @@ public class EmployeeController {
 		try {
 			Employee e = new Employee();
 			e.setEmployeeName(employee.getEmployeeName());
+			e.setPassword(employee.getPassword());
 			e.setEmployeeEmail(employee.getEmployeeEmail());
 			empRepository.save(e);
 			return new ResponseEntity<>(e, HttpStatus.CREATED);

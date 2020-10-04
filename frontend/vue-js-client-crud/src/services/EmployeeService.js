@@ -9,8 +9,12 @@ class EmployeeService {
     return http.get(`/employees/${id}`);
   }
 
-  create(data) {
+  login(data) {
     return http.post("/employees", data,{headers: {'Content-Type': 'application/json'}});
+  }
+
+  create(data) {
+    return http.post("/employees/add", data,{headers: {'Content-Type': 'application/json'}});
   }
 
   update(id, data) {
