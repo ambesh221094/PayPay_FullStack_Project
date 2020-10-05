@@ -61,7 +61,6 @@ import EmployeeService from "../services/EmployeeService";
         });
     },
     saveReview(employee){
-      console.log(employee.id);
       this.$router.push({name:'review',params: { id: employee.id }});
     }
   },

@@ -6,22 +6,25 @@
     <td colspan="4"><b>{{employees.employeeName}}'s</b> Performance Review</td>
     </tr>
       <tr>
-      <td><label>Category</label></td>
-      <td><label>Exceeds Expectation</label></td>
-      <td><label>Meets Expectation</label></td>
-      <td><label>Unsatisfactory</label></td>
+      <td><label><b>Category</b></label></td>
+      <td><label><b>Exceeds Expectation</b></label></td>
+      <td><label><b>Meets Expectation</b></label></td>
+      <td><label><b>Unsatisfactory</b></label></td>
       </tr>
       <tr>
-      <td><label>Project Delivery</label></td>
-      <td><input type="checkbox" value="E"></td>
-      <td><input type="checkbox" value="M"></td>
-      <td><input type="checkbox" value="U"></td>
+      <td><label><b>Project Delivery</b></label></td>
+      <td><input v-model="performance.projectDeliveryE" type="checkbox" value="E" ></td>
+      <td><input v-model="performance.projectDeliveryM" type="checkbox" value="M"></td>
+      <td><input v-model="performance.projectDeliveryU" type="checkbox" value="U"></td>
       </tr>
       <tr>
-      <td><label>Team Communication</label></td>
-      <td><input type="checkbox" value="E"></td>
-      <td><input type="checkbox" value="M"></td>
-      <td><input type="checkbox" value="U"></td>
+      <td><label><b>Team Communication</b></label></td>
+      <td><input v-model="performance.teamCommE" type="checkbox" value="E"></td>
+      <td><input v-model="performance.teamCommM" type="checkbox" value="M"></td>
+      <td><input v-model="performance.teamCommU" type="checkbox" value="U"></td>
+      </tr>
+      <tr>
+      <td colspan="4"><button @click="savePerformanceReview">Submit</button></td>
       </tr>
     </tbody>
     </table>
@@ -29,11 +32,18 @@
 </template>
 <script>
 import EmployeeService from "../services/EmployeeService";
+import PerformanceService from "../services/PerformanceService";
   export default {
    name: 'employee-table',
    data() {
     return {
-        employees: {
+        performance: {
+        id:'',
+        empId: '',
+        projectDelivery:'',
+        teamComm: ''
+      },
+      employees: {
         id:'',
         name: '',
         password:'',
@@ -42,19 +52,17 @@ import EmployeeService from "../services/EmployeeService";
    }
   },
   methods: {
-      retrieveEmployeeById() {
-      EmployeeService.get(this.$route.params.id)
+      savePerformanceReview() {
+      PerformanceService.create()
         .then(response => {
-          this.employees = response.data;
+          this.performance = response.data;
         })
         .catch(e => {
           console.log(e);
         });
     },
-
-    deleteEmployee(employee) {
-        console.log(employee.id);
-      EmployeeService.delete(employee.id)
+    retrieveEmployeeById() {
+      EmployeeService.get(this.$route.params.id)
         .then(response => {
           this.employees = response.data;
           console.log(response.data);
@@ -62,12 +70,12 @@ import EmployeeService from "../services/EmployeeService";
         .catch(e => {
           console.log(e);
         });
-    } 
-  },
-  beforeMount(){
+    }
+    },
+    beforeMount(){
     this.retrieveEmployeeById()
- }
   }
+  } 
 </script>
 
 <style scoped>
