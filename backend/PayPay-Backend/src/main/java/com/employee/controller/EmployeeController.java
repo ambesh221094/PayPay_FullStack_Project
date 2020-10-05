@@ -98,5 +98,16 @@ public class EmployeeController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	  @GetMapping("/employees/{id}")
+	  public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Integer id) {
+	    Employee e = empRepository.findById(id).orElse(null);
+
+	    if (e!=null) {
+	      return new ResponseEntity<>(e, HttpStatus.OK);
+	    } else {
+	      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    }
+	  }
 
 }

@@ -9,6 +9,7 @@
       <input v-model="employee.email" type="text" />
       <button @click="saveEmployee">Add Employee</button>
     </form>
+    <button class="right" @click="logout">Logout</button>
     <EmployeeTable/>
   </div>
 </template>
@@ -45,6 +46,10 @@ export default {
         .catch(e => {
           console.log(e);
         });
+    },
+    logout(){
+      localStorage.clear();
+      this.$router.push({name:'login'});
     }
   },
   computed: {
@@ -76,6 +81,14 @@ export default {
 
   button {
     background: #009435;
+    border: 1px solid #009435;
+  }
+
+  .right{
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    background: #FF6347;
     border: 1px solid #009435;
   }
 </style>

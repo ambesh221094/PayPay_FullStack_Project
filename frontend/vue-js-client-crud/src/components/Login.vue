@@ -39,7 +39,7 @@ export default {
         id: null,
         employeeName: "",
         password: ""
-      },
+      },      
     };
   },
   methods: {
@@ -51,6 +51,7 @@ export default {
 
       EmployeeService.login(data)
         .then(response => {
+          localStorage.setItem('LoggedUser',true);
           this.employee.id = response.data.id;
           console.log(response.data);
           if(response.data.admin){
@@ -64,6 +65,7 @@ export default {
       if(error.response.status=='404'){
        // this.loginSuccess=false;
         //  this.errorMessage='Username or Password is Incorrect';
+        this.error.push("Invalid Username or Password");
       }
     }
         });

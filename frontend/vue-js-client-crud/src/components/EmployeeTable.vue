@@ -13,6 +13,7 @@
       <td>{{employee.employeeEmail}}</td>
       <button @click="deleteEmployee(employee)">Delete</button>
       <button @click="editEmployee(employee)">Edit</button>
+      <button @click="saveReview(employee)">Add Review</button>
       <!-- <td v-else>
       <button @click="editMode(employee.id)">Edit</button>
       <button @click="$emit('', employee.id)">Delete</button>
@@ -50,7 +51,6 @@ import EmployeeService from "../services/EmployeeService";
     },
 
     deleteEmployee(employee) {
-        console.log(employee.id);
       EmployeeService.delete(employee.id)
         .then(response => {
           this.employees = response.data;
@@ -59,7 +59,11 @@ import EmployeeService from "../services/EmployeeService";
         .catch(e => {
           console.log(e);
         });
-    } 
+    },
+    saveReview(employee){
+      console.log(employee.id);
+      this.$router.push({name:'review',params: { id: employee.id }});
+    }
   },
   beforeMount(){
     this.retrieveEmployees()
