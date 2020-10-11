@@ -27,6 +27,9 @@ public class Employee {
 
 	@Column(name = "isAdmin")
 	private boolean isAdmin;
+	
+	@Column(name = "isReviewDone")
+	private boolean isReviewDone;
 
 	public Employee() {
 		super();
@@ -78,4 +81,13 @@ public class Employee {
 		this.password = password;
 	}
 
+	public boolean isReviewDone() {
+		return isReviewDone;
+	}
+
+	public void setReviewDone(boolean isReviewDone) {
+		this.isReviewDone = isReviewDone;
+	}
+
+	
 }

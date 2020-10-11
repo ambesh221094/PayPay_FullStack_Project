@@ -26,7 +26,7 @@ export default {
       employee: {
         name: '',
         password:'',
-        email: '',
+        email: ''
       },
     }
   },

@@ -13,12 +13,8 @@
       <td>{{employee.employeeEmail}}</td>
       <button @click="deleteEmployee(employee)">Delete</button>
       <button @click="editEmployee(employee)">Edit</button>
-      <button @click="saveReview(employee)">Add Review</button>
-      <!-- <td v-else>
-      <button @click="editMode(employee.id)">Edit</button>
-      <button @click="$emit('', employee.id)">Delete</button>
-      <button @click="$addreview('', employee.id)">addReview</button>     
-      </td> -->
+      <button @click="seeReview(employee)" class="button_review" v-if='employee.reviewDone'>See Review</button>
+      <button v-else @click="saveReview(employee)">Add Review</button>
       </tr>
       </tbody>
     </table>
@@ -34,7 +30,7 @@ import EmployeeService from "../services/EmployeeService";
         id:'',
         name: '',
         password:'',
-        email: '',
+        email: ''
       },
    }
   },
@@ -54,13 +50,16 @@ import EmployeeService from "../services/EmployeeService";
       EmployeeService.delete(employee.id)
         .then(response => {
           this.employees = response.data;
-          console.log(response.data);
+          console.log(response.data.isReviewDone);
         })
         .catch(e => {
           console.log(e);
         });
     },
     saveReview(employee){
+      this.$router.push({name:'review',params: { id: employee.id }});
+    },
+    seeReview(employee){
       this.$router.push({name:'review',params: { id: employee.id }});
     }
   },
@@ -75,5 +74,11 @@ import EmployeeService from "../services/EmployeeService";
     margin: 0 0.5rem 0 0;
     background: #009435;
     border: 1px solid #009435;
+  }
+  
+  .button_review {
+    margin: 0 0.5rem 0 0;
+    background: #FFFF00;
+    border: 1px solid #FFFF00;
   }
 </style>

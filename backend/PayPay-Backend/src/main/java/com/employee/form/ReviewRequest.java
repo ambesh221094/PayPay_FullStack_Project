@@ -1,37 +1,20 @@
-package com.employee.entity;
+package com.employee.form;
 
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "performanceData")
-public class PerformanceReview {
+public class ReviewRequest {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
 	private Integer id;
 	
-	@Column(name = "empId")
 	private Integer empId;
 	
-	@Column(name = "projectDelivery")
 	private String projectDelivery;
 	
-	@Column(name = "teamComm")
 	private String teamComm;
 	
-	@Column(name="description")
 	private String description;
 	
-	@Column(name="userIds")
-	private String userIds;
+	private List<String> userIds;
 
 	public Integer getId() {
 		return id;
@@ -73,11 +56,11 @@ public class PerformanceReview {
 		this.description = description;
 	}
 
-	public String getUserIds() {
+	public List<String> getUserIds() {
 		return userIds;
 	}
 
-	public void setUserIds(String userIds) {
+	public void setUserIds(List<String> userIds) {
 		this.userIds = userIds;
 	}
 

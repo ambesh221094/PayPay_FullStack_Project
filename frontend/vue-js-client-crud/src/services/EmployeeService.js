@@ -9,6 +9,14 @@ class EmployeeService {
     return http.get(`/employees/${id}`);
   }
 
+  getPending(id) {
+    return http.get(`/performance/pending/${id}`);
+  }
+
+  getOther(id) {
+    return http.get(`/employees/other/${id}`);
+  }
+
   login(data) {
     return http.post("/employees", data,{headers: {'Content-Type': 'application/json'}});
   }

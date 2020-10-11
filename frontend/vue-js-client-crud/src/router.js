@@ -48,7 +48,7 @@ export default new Router({
       component: () => import("./components/AdminView")
     },
     {
-      path: "/employee/:name",
+      path: "/employee/:name/:id",
       name: "employee",
       beforeEnter : guardMyroute,
       component: () => import("./components/EmployeeView")

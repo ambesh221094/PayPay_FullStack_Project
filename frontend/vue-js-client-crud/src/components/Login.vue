@@ -53,11 +53,10 @@ export default {
         .then(response => {
           localStorage.setItem('LoggedUser',true);
           this.employee.id = response.data.id;
-          console.log(response.data);
           if(response.data.admin){
             this.$router.push({name:'admin'})
           }else{
-            this.$router.push({name:'employee',params: { name: this.employee.employeeName }})
+            this.$router.push({name:'employee',params: { name: this.employee.employeeName, id: this.employee.id}})
           }
         })
         .catch(function (error) {
