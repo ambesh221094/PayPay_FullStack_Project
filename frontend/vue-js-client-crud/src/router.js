@@ -3,21 +3,18 @@ import Router from "vue-router";
 
 Vue.use(Router);
 
-function guardMyroute(to, from, next)
-{
- var isAuthenticated= false;
-if(localStorage.getItem('LoggedUser'))
-  isAuthenticated = true;
- else
-  isAuthenticated= false;
- if(isAuthenticated) 
- {
-  next();
- } 
- else
- {
-  next('/');
-}
+function guardMyroute(to, from, next) {
+  var isAuthenticated = false;
+  if (localStorage.getItem('LoggedUser'))
+    isAuthenticated = true;
+  else
+    isAuthenticated = false;
+  if (isAuthenticated) {
+    next();
+  }
+  else {
+    next('/');
+  }
 }
 
 
@@ -32,11 +29,6 @@ export default new Router({
       component: () => import("./components/Login")
     },
     {
-      path: "/employees/:id",
-      name: "employee-details",
-      component: () => import("./components/Employee")
-    },
-    {
       path: "/add",
       name: "add",
       component: () => import("./components/AddEmployee")
@@ -44,19 +36,19 @@ export default new Router({
     {
       path: "/admin",
       name: "admin",
-      beforeEnter : guardMyroute,
+      beforeEnter: guardMyroute,
       component: () => import("./components/AdminView")
     },
     {
       path: "/employee/:name/:id",
       name: "employee",
-      beforeEnter : guardMyroute,
+      beforeEnter: guardMyroute,
       component: () => import("./components/EmployeeView")
     },
     {
       path: "/review/:id",
       name: "review",
-      beforeEnter : guardMyroute,
+      beforeEnter: guardMyroute,
       component: () => import("./components/PerformaceReview")
     }
   ]
