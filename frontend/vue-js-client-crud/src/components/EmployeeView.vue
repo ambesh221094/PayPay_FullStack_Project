@@ -1,6 +1,7 @@
 <template>
   <div>
-    <table align="center">
+    <p v-if="employees.length < 1" class="empty-table">No Performance Review for feedback</p>
+    <table v-else align="center">
       <tbody>
         <tr>
           <td colspan="4">
@@ -12,7 +13,7 @@
             <label>
               <b>{{employee.employeeName}}</b>
             </label>
-            <button>Give Feedback</button>
+            <button @click="giveFeedback(employee)">Give Feedback</button>
           </td>
         </tr>
       </tbody>
@@ -45,9 +46,12 @@ export default {
           console.log(e);
         });
     },
+    giveFeedback(employee){
+      this.$router.push({name:'review',params: { id: employee.id }});
+    }
+  },
   beforeMount() {
     this.retrieveEmployeePendingFeedBack();
-  }
   }
 };
 </script>

@@ -24,6 +24,9 @@ public class EmployeeFeedback {
 	
 	@Column(name = "empFeedBackPending")
 	private String empFeedBackPending;
+	
+	@Column(name = "feedbackDone")
+	private Boolean feedbackDone;
 
 
 	public Integer getId() {
@@ -57,6 +60,13 @@ public class EmployeeFeedback {
 	public void setEmpFeedBackPending(String empFeedBackPending) {
 		this.empFeedBackPending = empFeedBackPending;
 	}
-	
+
+	public Boolean getFeedbackDone() {
+		return feedbackDone;
+	}
+
+	public void setFeedbackDone(Boolean feedbackDone) {
+		this.feedbackDone = feedbackDone;
+	}
 	
 }

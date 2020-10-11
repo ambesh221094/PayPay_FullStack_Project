@@ -58,7 +58,22 @@
             </label>
           </td>
           <td>
-            <textarea rows="7" cols="50" v-model="performance.description"></textarea>
+            <textarea :readonly="employees.reviewDone" rows="7" cols="50" v-model="performance.description"></textarea>
+          </td>
+        </tr>
+        <tr v-for="f in feedback" :key="f.id" height="100px">
+          <td>
+            <label v-if="!f.feedbackDone">
+              <b>Add your feedback</b>
+            </label>
+            <label v-else>
+              <div v-for="employee in employeeOthers" :key="employee.id">
+              <b>{{employee.employeeName}}'s Feedback</b>
+              </div>
+            </label>
+          </td>
+          <td>
+            <textarea :readonly="f.feedbackDone" rows="7" cols="50" v-model="f.feedback"></textarea>
           </td>
         </tr>
         <tr v-if="!employees.reviewDone">
@@ -78,6 +93,13 @@
             <button @click="savePerformanceReview">Submit</button>
           </td>
         </tr>
+        <div v-for="f in feedback" :key="f.id">
+        <tr v-if="!f.feedbackDone">
+          <td colspan="4">
+            <button @click="saveFeedback(employee)">Submit</button>
+          </td>
+        </tr>
+        </div>
       </tbody>
     </table>
   </div>
@@ -108,6 +130,13 @@ export default {
         name: "",
         password: "",
         email: ""
+      },
+      feedback:{
+        empId:"",
+        description:"",
+        empFeedBackPending:"",
+        feedbackDone:"",
+        feedback:""
       }
     };
   },
@@ -154,16 +183,40 @@ export default {
       EmployeeService.getOther(this.$route.params.id)
         .then(response => {
           this.employeeOthers = response.data;
-          console.log(response.data);
         })
         .catch(e => {
           console.log(e);
         });
-    }
+    },
+    saveFeedback() {
+      var data = {
+        empFeedBackPending: this.$route.params.id,
+        feedback: this.feedback.description,
+      };
+      PerformanceService.addFeedback(data)
+        .then(response => {
+          this.performance = response.data;
+          this.$router.push({name:'employee',params: { id: performance.id }});
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    retrieveFeedback() {
+      PerformanceService.getFeedbackDone(this.$route.params.id)
+        .then(response => {
+          this.feedback = response.data;
+          console.log(response.data.empFeedBackPending)
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
   },
   beforeMount() {
     this.retrieveEmployeeById();
     this.retrieveOtherEmployees();
+    this.retrieveFeedback();
   }
 };
 </script>

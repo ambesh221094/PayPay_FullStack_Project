@@ -30,37 +30,38 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 @RequestMapping("/api")
 public class PerformanceReviewController {
-	
+
 	@Autowired
 	PerformanceRepository perRepository;
-	
+
 	@Autowired
 	EmployeeRepository empRepository;
-	
+
 	@Autowired
 	FeedbackRepository feedbackRepository;
-	
+
 	@PostMapping("/performanceReview/add")
 	@Transactional
 	public ResponseEntity<PerformanceReview> createReview(@RequestBody ReviewRequest r) throws JsonProcessingException {
-		PerformanceReview pr=new PerformanceReview();
+		PerformanceReview pr = new PerformanceReview();
 		pr.setEmpId(r.getEmpId());
 		pr.setProjectDelivery(r.getProjectDelivery());
 		pr.setTeamComm(r.getTeamComm());
 		pr.setDescription(r.getDescription());
-		
+
 		ObjectMapper mapper = new ObjectMapper();
 		String newJsonData = mapper.writeValueAsString(r.getUserIds());
-		
+
 		pr.setUserIds(newJsonData);
-		
-		EmployeeFeedback ef=new EmployeeFeedback();
-		for(String u:r.getUserIds()) {
-		ef.setEmpId(Integer.parseInt(u));
-		ef.setEmpFeedBackPending(r.getEmpId().toString());
-		feedbackRepository.save(ef);
+
+		EmployeeFeedback ef = new EmployeeFeedback();
+		for (String u : r.getUserIds()) {
+			ef.setEmpId(Integer.parseInt(u));
+			ef.setEmpFeedBackPending(r.getEmpId().toString());
+			ef.setFeedbackDone(false);
+			feedbackRepository.save(ef);
 		}
-		
+
 		try {
 			perRepository.save(pr);
 			empRepository.updateEmployee(pr.getEmpId());
@@ -70,32 +71,50 @@ public class PerformanceReviewController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	@GetMapping("/performance/{id}")
+	public ResponseEntity<PerformanceReview> getPerformanceById(@PathVariable("id") Integer id) {
+		PerformanceReview e = perRepository.findPerformanceById(id);
+
+		if (e != null) {
+			return new ResponseEntity<>(e, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@GetMapping("/performance/pending/{id}")
+	public ResponseEntity<List<Employee>> getPendingUsers(@PathVariable("id") Integer id) {
+		List<EmployeeFeedback> ef = feedbackRepository.findByPending(id);
+		List<Employee> emp = new ArrayList<>();
+		for (EmployeeFeedback e : ef) {
+			emp.add(empRepository.getPendingUsersDetails(Integer.parseInt(e.getEmpFeedBackPending())));
+		}
+
+		if (ef != null) {
+			return new ResponseEntity<>(emp, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@PostMapping("/performanceReview/feedback/add")
+	@Transactional
+	public void addFeedback(@RequestBody EmployeeFeedback f) {
+
+		feedbackRepository.updateFeedback(f.getFeedback(),f.getEmpFeedBackPending());
+
+	}
 	
-	 @GetMapping("/performance/{id}")
-	  public ResponseEntity<PerformanceReview> getPerformanceById(@PathVariable("id") Integer id) {
-		 PerformanceReview e = perRepository.findPerformanceById(id);
+	@GetMapping("/performanceReview/feedback/{id}")
+	public ResponseEntity<List<EmployeeFeedback>> getFeedbackDone(@PathVariable("id") String id) {
+		List<EmployeeFeedback> ef = feedbackRepository.findFeedbackDone(id);
 
-	    if (e!=null) {
-	      return new ResponseEntity<>(e, HttpStatus.OK);
-	    } else {
-	      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	    }
-	  }
-	 
-	 @GetMapping("/performance/pending/{id}")
-	  public ResponseEntity<List<Employee>> getPendingUsers(@PathVariable("id") Integer id) {
-		 List<EmployeeFeedback> ef = feedbackRepository.findByPending(id);
-		 List<Employee> emp=new ArrayList<>();
-		 for(EmployeeFeedback e:ef) {
-			 emp.add(empRepository.getPendingUsersDetails(Integer.parseInt(e.getEmpFeedBackPending())));
-		 }
-
-	    if (ef!=null) {
-	      return new ResponseEntity<>(emp, HttpStatus.OK);
-	    } else {
-	      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	    }
-	  }
-
+		if (ef != null) {
+			return new ResponseEntity<>(ef, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 
 }
