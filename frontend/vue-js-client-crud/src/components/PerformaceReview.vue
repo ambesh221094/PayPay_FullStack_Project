@@ -61,7 +61,7 @@
             <textarea :readonly="employees.reviewDone" rows="7" cols="50" v-model="performance.description"></textarea>
           </td>
         </tr>
-        <tr v-for="f in feedback" :key="f.id" height="100px">
+        <!-- <tr v-for="f in feedback" :key="f.id" height="100px">
           <td>
             <label v-if="!f.feedbackDone">
               <b>Add your feedback</b>
@@ -75,7 +75,7 @@
           <td>
             <textarea :readonly="f.feedbackDone" rows="7" cols="50" v-model="f.feedback"></textarea>
           </td>
-        </tr>
+        </tr> -->
         <tr v-if="!employees.reviewDone">
           <td>
             <label><b>Users assigned for participation in feedback process</b></label>
@@ -93,13 +93,13 @@
             <button @click="savePerformanceReview">Submit</button>
           </td>
         </tr>
-        <div v-for="f in feedback" :key="f.id">
+        <!-- <div v-for="f in feedback" :key="f.id">
         <tr v-if="!f.feedbackDone">
           <td colspan="4">
             <button @click="saveFeedback(employee)">Submit</button>
           </td>
         </tr>
-        </div>
+        </div> -->
       </tbody>
     </table>
   </div>

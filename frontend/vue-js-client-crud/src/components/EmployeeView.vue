@@ -47,7 +47,7 @@ export default {
         });
     },
     giveFeedback(employee){
-      this.$router.push({name:'review',params: { id: employee.id }});
+      this.$router.push({name:'feedback',params: { id: employee.id }});
     }
   },
   beforeMount() {

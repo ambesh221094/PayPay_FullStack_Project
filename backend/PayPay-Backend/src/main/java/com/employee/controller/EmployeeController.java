@@ -26,6 +26,14 @@ public class EmployeeController {
 
 	@Autowired
 	EmployeeRepository empRepository;
+	
+	@PostMapping("/employees/createAdmin")
+	public ResponseEntity<Employee> createAdmin(@RequestBody Employee emp) {
+		emp.setAdmin(true);
+		emp.setReviewDone(false);
+		empRepository.save(emp);
+		return new ResponseEntity<>(emp, HttpStatus.CREATED);
+	}
 
 	@PostMapping("/employees")
 	public ResponseEntity<Employee> login(@RequestBody LoginRequest req) {

@@ -50,6 +50,12 @@ export default new Router({
       name: "review",
       beforeEnter: guardMyroute,
       component: () => import("./components/PerformaceReview")
+    },
+    {
+      path: "/feedback/:id",
+      name: "feedback",
+      beforeEnter: guardMyroute,
+      component: () => import("./components/FeedBack")
     }
   ]
 });
